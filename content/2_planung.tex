@@ -1,8 +1,40 @@
 \chapter{Projektplanung}\label{ch:data}
+\section{Projektziele}
+Die groben Projektziele lassen sich aus der Projektaufgabe ableiten. 
+Die Webanwendung soll das Hinzufügen von neuen Tarifen und Produkten ermöglichen. Dies soll so umgesetzt werden, das die zugehörigen Kind-Entitäten nur aus der Eltern-Entität hinzugefügt werden können.
+Eine weiter Funktionalität ist das Anlegen von Tarifen anhand eines bestehenden Tarifs. 
+Hierbei sollen die Daten des bestehenden Tarifs - auch Kinder - übernommen werden und der neue Tarif kann dann angepasst werden.
+Eine ebenso wichtige Anforderung ist das mögliche deaktivieren von Tarifen und Produkten. Dies soll die Inaktivität der jeweiligen Entität darstellen, diese werden dann z.B. nicht mehr im Export berücksichtigt.
+Sobald ein Tarif oder Produkt inaktiv ist, soll es nun möglich sein diese zu löschen. Hierbei ist es wichtig, dass die zugehörigen Kinder ebenfalls gelöscht werden. 
+Die Überschüsse sollen als einzige Entität komplett bearbeitet werden können, da diese jährlich neu berechnet werden. Eine andere Möglichkeit um diese zu ändern soll im allgemeinen durch die Gesamtzinsänderung erfolgen.
+Dies ist so geplant, dass man die Gesamtzinsänderung eingibt und die Überschüsse den neuen Zins übernehmen. Die letzte aber womöglich einer der wichtigsten Anforderungen ist das Exportieren, der jeweiligen Entitäten.
+Die Daten sollen in einer C-Datei eingepflegt werden in Form eines Arrays. Zusätzlich zu den Properties soll auch die Anzahl der Elemente mit exportiert werden. Kinder sollen nicht berücksichtigt werden.
+Diese Funktionalität ist besonders wichtig, da diverse anderen Anwendungen diese Dateien benötigen.
+
 \section{Technologie Auswahl}
 \subsection{Frontend: Angular}
-\subsection{Backend: Spring Boot}
-\subsection{Datenbank: MSSQL}
+\subsection{Backend: Spring Boot vs ASP.Net}
+Im weiteren Verlauf der Planung wurde darüber diskutiert, ob die Umsetzung des Backends lieber mit Java oder C\# erfolgen soll. 
+Sowohl Java als auch C\# sind objektorientierte Programmiersprachen die ausreichend Tools zur Entwicklung von Web- und CRUD- (Create, Read, Update, Delete) Anwendungen bieten.
+Das heißt das jegliche Sprache für die von uns definierten Projektziele mehr als ausreichend ist.
+Auf der Seite von Java stehen Spring Boot für die Web Funktionalität und Spring Data JPA für die Abstrahierung der Datenbank zur Verfügung.
+C\# auf der anderen Seite bietet ASP.Net Core für die Web Funktionalität und Entity Framework Core für die Abstrahierung der Datenbank.
+Da ich bereits reichlich Erfahrung in der Entwicklung mit C\#, sowie ASP.Net und EFC habe, war dieses auch meine persönlich Präferenz für das Projekt.
+Innerhalb der Nürnberger ist jedoch C\# nicht weitreichend genutzt und stattdessen wird Java bevorzugt. Dieser Meinung ist auch mein Betreuer, jedoch lies er mir die Option offen, mit 
+ausreichend Argumenten, auch C\# zu verwenden. 
+Dementsprechend recherchierte ich die Vor- und Nachteile beider Technologien und stellte diese gegenüber.
+Es gibt zwei starke Argumente die für die Verwendung von der Microsoft Umgebung rund um C\# sprechen.
+Hier ist das Hauptaugenmerk auf meine weitreichende Erfahrung in der Entwicklung mit C\# und ASP.Net zu legen.
+Die nicht notwendige Einarbeitung in eine neue Sprache und Umgebung würde definitiv die Entwicklung beschleunigen.
+Ebenso würde das Vorwissen vermutlich auch die Qualität des Codes erhöhen, da ich bereits Methoden kenne, wie man Architektur, Entität-Beziehungen und Datenbankzugriffe effizient umsetzt.
+Ein weiterer Vorteil ist C\# leicht bessere Performance und deutlich besseres Speichermanagement. https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/csharp.html
+Das Hauptargument auf der Seite von Java ist die weitreichende Nutzung innerhalb der Nürnberger Versicherung. Dies resultiert in zu einem besseren Support innerhalb des Unternehmens.
+Ebenso ist das maintaining dieser Anwendungen simpler, da die meisten Entwickler hier bereits Erfahrung in Java haben. Dementsprechend ist es für einen möglichen nachfolgenden Entwickler leichter
+in das Projekt einzusteigen und gegebenenfalls zu übernehmen.
+Das war auch letztlich der überzeugenden Punkt für die Verwendung von Java. Die Argumente für C\# weg von Java waren letztlich nicht stark genug.
+Zusätzlich bedeutet das für mich auch eine neue Herausforderung, in der ich eine neue zusätzliche Sprache und Umgebung lernen kann.
+
+\subsection{Datenbank: MSSQL vs Oracle}
+Der nächste Schritt war die Auswahl der Datenbank. Hier standen MSSQL und Oracle zur Auswahl.
 \subsection{Architektur: Hexagonal}
-\section{Projektziele}
-\Blindtext
+
