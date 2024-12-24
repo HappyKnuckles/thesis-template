@@ -1,0 +1,25 @@
+\begin{tikzpicture}[node distance=2cm, align=center]
+
+  % User and Frontend
+  \node (user) [block, text width=4em] at (-3cm, 0) {User};
+  \node (frontend) [block, text width=6em, below=2cm of user] {Frontend Angular};
+  
+  % Backend
+  \node (webLayer) [layer, below=2cm of frontend] {Web \\ Layer};
+  \node (domainLayer) [layer, right=3.5cm of webLayer] {Domain \\ Layer};
+  \node (dataLayer) [layer, right=3.5cm of domainLayer] {Data \\ Layer};
+  
+  % Database
+  \node (database) [database, above=4cm of dataLayer] {Database \\ MSSQL};
+  
+  % Fit Backend Box
+  \node[draw, rounded corners, inner sep=0.7cm, fit=(webLayer) (domainLayer) (dataLayer), label={[anchor=north]north:Backend (Java, Springboot)}] (backend) {};
+  
+  % Arrows with labels
+  \draw [arrow] (user) -- node[left] {interacts} node[right] {with} (frontend);
+  \draw [arrow] (frontend) -- node[left] {http} node[right] {request} (webLayer.north);
+  \draw [arrow] (webLayer) -- node[above] {call service} node[below] {methods} (domainLayer);
+  \draw [arrow] (domainLayer) -- node[above] {ask for data} (dataLayer);
+  \draw [arrow] (dataLayer) -- node[above, xshift=-0.1cm] {access data} (database);
+    
+\end{tikzpicture}

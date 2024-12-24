@@ -12,7 +12,8 @@
     captions=tableheading,  % caption below table
     chapterprefix,
     listof=flat,
-    final
+    final,
+    tikz
 ]{scrbook}
 
 % details about your thesis
@@ -52,17 +53,28 @@
 \usepackage[final]{graphicx}
 \usepackage{setspace,geometry,xcolor}
 \usepackage{makeidx}
+\setlength{\marginparwidth}{2cm}
 \usepackage{paralist,ifthen,todonotes}
 \usepackage{url}
 \usepackage{microtype}
 \usepackage[toc]{glossaries}
 \usepackage{pdfpages}
+\usepackage{svg}
 
 % table setup
 \usepackage{longtable}
 \usepackage{array}
 \usepackage{ragged2e}
 \usepackage{lscape}
+
+% tikz setup
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows, positioning, fit, backgrounds}
+\tikzstyle{block} = [rectangle, draw, text centered, rounded corners, minimum height=2em]
+\tikzstyle{layer} = [block, fill=orange!30, text width=6em, text centered]
+\tikzstyle{database} = [cylinder, shape border rotate=90, aspect=0.3, draw, minimum height=4em, text centered, minimum width=3em]
+\tikzstyle{frontend} = [block, text width=7em]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 
 % pdf hyperref
 \usepackage[

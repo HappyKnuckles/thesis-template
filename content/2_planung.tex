@@ -2,21 +2,33 @@
 \section{Projektziele}
 Die groben Projektziele lassen sich aus der Projektaufgabe ableiten. 
 Die genauen Ziele sind die Implementierung folgender Entitäten: Tarif, Tarifbaustein, Tarifbaustein-Pricing, Tafelsystem, Überschuss, Produkt und Produkt-Pricing.
+
 Ein Tarif besteht jeweils aus mehreren Tarifbausteinen. Ein Tarifbaustein wiederum aus mehreren Tarifbaustein-Pricings. Tarifbausteine können null-drei Tafelsysteme und Überschüsse haben.
-Ein Produkt besteht aus mehreren Produkt-Pricings. Neben den Grundfunktionen wie CRUD (Create, Read, Update, Delete), die alle Entitäten haben sollen, gibt es noch spezielle Funktionen.
+Ein Produkt besteht aus mehreren Produkt-Pricings. 
+
+Neben den Grundfunktionen wie CRUD (Create, Read, Update, Delete), die alle Entitäten haben sollen, gibt es noch spezielle Funktionen.
 Ein Tarif sowohl als auch ein Produkt sollen deaktiviert werden können. Dies dient ebenfalls als Voraussetzung für eine Löschung. Bei der Löschung von Tarifen soll darauf geachtet werden, dass Überschüsse und
-Tafelsysteme die keinem Tarifbaustein mehr zugehörig sind auch gelöscht werden um keine bezugslose Entitäten zu speichern. Dementsprechend sollen alle Kind-Entitäten nur mit der Erstellung eines Vater-Elements angelegt werden können.
+Tafelsysteme die keinem Tarifbaustein mehr zugehörig sind auch entfernt werden um keine bezugslose Entitäten zu speichern. 
+
+Dementsprechend sollen alle Kind-Entitäten auch nur mit der Erstellung eines Vater-Elements angelegt werden können.
 Bei der Erstellung neuer Tarife soll es ebenfalls möglich sein einen bereits bestehenden Tarif als Vorlage zu verwenden. Hier ist es wichtig, dass nicht nur die direkten Tarifinformationen, 
 sondern auch alle Daten der zugehörigen Kinder-Entitäten übernommen werden.
+
 Zusätzlich zu den bereits genannten Funktionen muss es möglich sein 
-die Inhalte der Entitäten zu exportieren. Dies geschieht in Form einer C-Datei. Die C-Datei hat folgende Struktur: 
+die Inhalte der Entitäten zu exportieren. Dies geschieht in Form einer C-Datei. 
+
+Die C-Datei hat folgende Struktur: 
 \lstinputlisting[language=C,caption={C-Datei Beispiel},captionpos=b]{listings/c-file.c}
-Anzumerken ist, dass in der C-Datei deaktiviert markierte Tarife oder Produkte nicht exportiert werden sollen. Zusätzlich sollen nur die Inhalte der aktuell ausgewählten Entität übernommen werden, also ohne Kind Daten.
+Anzumerken ist, dass in der C-Datei als deaktiviert markierte Tarife oder Produkte nicht exportiert werden sollen. Zusätzlich sollen nur die Inhalte der aktuell ausgewählten Entität übernommen werden, also ohne Kind Daten.
 Diese Funktion ist besonders wichtig, da die Inhalte der C-Datei von anderen Anwendungen benötigt werden. Besonders sticht hier SST-Referenz heraus.
+
 Die letzten Funktionalitäten dienen allein den Überschüssen. Die Überschüsse werden wie bereits im vorherigem Kapitel erwähnt, jedes Jahr neu berechnet.
-Dementsprechend benötigt es diverse Funktionen um dies zu erleichtern. Dazu gehört die neu Berechnung des Gesamtzins. Die Umsetzung ist so geplant, dass der neue Gesamtzins als Input eingegeben wird.
+Dementsprechend benötigt es diverse Funktionen um dies zu erleichtern. 
+
+Dazu gehört die Neuberechnung des Gesamtzins. Die Umsetzung ist so geplant, dass der neue Gesamtzins als Input eingegeben wird.
 Nun werden alle Überschüsse mit einem neuen Eintrag angelegt, der bis Ende des folge Jahre gültig ist. Die gültigBis Property des vorherigen Eintrags wird folglich auf das Ende des aktuellen Jahres geändert.
 Der neue Eintrag ist letztlich eine vollständige Kopie des alten Eintrags, jedoch mit dem neuen Gesamtzins. Dies ist der Fall, falls sich die Gesamtverzinsung in einem Jahr ändert.
+
 Nun gibt es noch die Möglichkeit, dass sich der Gesamtzins nicht ändert. In diesem Fall müssen nicht alle Einträge geändert werden, sondern nur ausgewählte. 
 Dafür muss es möglich sein einen Eintrag fortzuschreiben wie bei der Änderung des Gesamtzins. Also ein neuer Eintrag mit neuer Gültigkeit und aktualisieren des alten Eintrags.
 Im neuen Eintrag werden dann die Werte die sich geändert haben, manuell angepasst. Nach der Anpassung müssen alle unveränderten Einträge ebenfalls fortgeschrieben werden. 
@@ -29,12 +41,14 @@ Also muss es eine Funktion geben die alle aktuellen Einträge kopiert und die G�
 Im weiteren Verlauf der Planung wurde darüber diskutiert, ob die Umsetzung des Backends lieber mit Java oder C\# erfolgen soll. 
 Sowohl Java als auch C\# sind objektorientierte Programmiersprachen die ausreichend Tools zur Entwicklung von Web- und CRUD- (Create, Read, Update, Delete) Anwendungen bieten.
 Das heißt das jegliche Sprache für die von uns definierten Projektziele mehr als ausreichend ist.
+
 Auf der Seite von Java stehen Spring Boot für die Web Funktionalität und Spring Data JPA für die Abstrahierung der Datenbank zur Verfügung.
 C\# auf der anderen Seite bietet ASP.Net Core für die Web Funktionalität und Entity Framework Core für die Abstrahierung der Datenbank.
 Da ich bereits reichlich Erfahrung in der Entwicklung mit C\#, sowie ASP.Net und EFC habe, war dieses auch meine persönlich Präferenz für das Projekt.
 Innerhalb der Nürnberger ist jedoch C\# nicht weitreichend genutzt und stattdessen wird Java bevorzugt. Dieser Meinung ist auch mein Betreuer, jedoch lies er mir die Option offen, mit 
 ausreichend Argumenten, auch C\# zu verwenden. 
 Dementsprechend recherchierte ich die Vor- und Nachteile beider Technologien und stellte diese gegenüber.
+
 Es gibt zwei starke Argumente die für die Verwendung von der Microsoft Umgebung rund um C\# sprechen.
 Hier ist das Hauptaugenmerk auf meine weitreichende Erfahrung in der Entwicklung mit C\# und ASP.Net zu legen.
 Die nicht notwendige Einarbeitung in eine neue Sprache und Umgebung würde definitiv die Entwicklung beschleunigen.
@@ -42,13 +56,45 @@ Ebenso würde das Vorwissen vermutlich auch die Qualität des Codes erhöhen, da
 Ein weiterer Vorteil ist C\# leicht bessere Performance und deutlich besseres Speichermanagement. 
 // TODO Bild einfügen und beschreiben
 https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/csharp.html
+
 Das Hauptargument auf der Seite von Java ist die weitreichende Nutzung innerhalb der Nürnberger Versicherung. Dies resultiert in zu einem besseren Support innerhalb des Unternehmens.
-Ebenso ist das maintaining dieser Anwendungen simpler, da die meisten Entwickler hier bereits Erfahrung in Java haben. Dementsprechend ist es für einen möglichen nachfolgenden Entwickler leichter
+Ebenso ist das Maintaining dieser Anwendungen simpler, da die meisten Entwickler hier bereits Erfahrung in Java haben. Dementsprechend ist es für einen möglichen nachfolgenden Entwickler leichter
 in das Projekt einzusteigen und gegebenenfalls zu übernehmen.
-Das war auch letztlich der überzeugenden Punkt für die Verwendung von Java. Die Argumente für C\# weg von Java waren letztlich nicht stark genug.
-Zusätzlich bedeutet das für mich auch eine neue Herausforderung, in der ich eine neue zusätzliche Sprache und Umgebung lernen kann.
+Das war auch letztlich der überzeugenden Punkt für die Verwendung von Java. 
+
+Die Argumente für C\# und weg von Java waren letztlich nicht stark genug.
+Zusätzlich bedeutet das für mich auch eine Herausforderung, in der ich eine neue weitere Sprache und Umgebung lernen kann.
 
 \subsection{Datenbank: MSSQL vs Oracle}
 Der nächste Schritt war die Auswahl der Datenbank. Hier standen MSSQL und Oracle zur Auswahl.
 \subsection{Architektur: Hexagonal}
+Der letzte Planungsabschnitt ist die Auswahl der Architektur. Hier wurde mir komplette Freiheit gelassen.
+Die einzige Bedingung hierbei war, dass die Logik aufgeteilt wird und somit eine Schichtentrennung erfolgt.
 
+Hierbei fiel meine Entscheidung auf die Hexagonale Architektur.
+
+Das Grundprinzip der Hexagonalen Architektur ist es die Anwendung in verschiedene Schichten aufzuteilen.
+Diese unterschiedlichen Schichten sind von außen nach innen abhängig von einander. Das heißt das jede innere Schicht nichts von einer Schicht weiter außen weiß.
+In der Regel ist die Model-Schicht die innerste Schicht.
+Dann kommt die Service-Schicht mit der Anwendungslogik und die Controller-Schicht mit den APIs als Schnittstelle zum User-Interface.
+
+Im meinem konkreten Fall bedeutet das, dass die Web-Layer alle Schnittstellen anbietet die mein Fronted benötigt. Darunter zählen GET-Anfragen um Daten zu bekommen oder
+POST-Anfragen um Daten zu speichern.
+Die Domain-Layer ist die eigentliche Logik der Anwendung. Hier finden alle Berechnungen und Datenverarbeitungen, wie das Ändern der Überschüsse oder die Generierung der C-Datei, statt.
+Die Data-Layer ist die Schnittstelle zur Datenbank. Hier werden alle Datenbankzugriffe durchgeführt. In dieser Schicht sind auch alle Entitäten definiert.
+
+In \ref{fig:architecture} ist die Architektur des Systems dargestellt. Der Nutzer interagiert mit dem Frontend. Die Anfrage wird an die Web-Layer geschickt. 
+Diese ruft eine Methode im Service auf. Der Service in der Domain-Layer führt die Anfrage aus und ruft, falls Daten benötigt oder bearbeitet werden, die Data-Layer auf.
+Die Data-Layer greift auf die Datenbank zu und gibt die Daten zurück.
+
+\begin{figure}[h]
+  \centering
+  \input{./figures/architecture.tex}
+  \caption{Architektur des Systems}
+  \label{fig:architecture}
+\end{figure}
+
+Diese Architektur bietet mehrere Vorteile. Durch die genannte Aufteilung ist es einfacher, einzelne Schichten zu ändern und auszutauschen. 
+So ist es beispielsweise dem Web-Layer egal, welches Frontend verwendet wird, und dem Data-Layer, welche Datenbank zum Einsatz kommt.
+Ebenfalls kann die Business-Logik unabhängig von den anderen Schichten getestet werden.
+Das wichtigste Argument für diese Architektur war jedoch, dass sie zum einen die Anforderung der geforderten Trennung erfüllt und die einzige Architektur ist, die ich bereits in der Praxis verwendet habe.

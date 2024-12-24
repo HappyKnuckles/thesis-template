@@ -7,22 +7,37 @@
 Mein Praktikum absolvierte ich vom 1. September 2024 bis zum 25. Januar 2025 bei der Nürnberger Versicherung.
 Die Nürnberger Versicherung (im Folgenden 'Nürnberger') bietet Finanzdienstleistungen an.
 Dazu zählen insbesondere wie der Name schon sagt Versicherungen.
+
+
 Zu diesen zählen unter anderem Lebensversicherungen, Krankenversicherungen, Rentenversicherungen und Sachversicherungen.
-Unter dem Dach der Nürnberger Beteiligungs-AG bestehen mehrere spezialisierte Gesellschaften: Die Nürnberger Lebensversicherung AG bietet Lösungen zur finanziellen Vorsorge an, während die Nürnberger Allgemeine Versicherungs-AG Sachversicherungen abdeckt. Die Garanta Versicherungs-AG fungiert als berufsständischer Versicherer für das deutsche Kraftfahrzeuggewerbe. Zur Schadensregulierung ist die Nürnberger Sofortservice AG tätig, und der Nürnberger AutoMobil Versicherungsdienst GmbH unterstützt Autohäuser mit Versicherungsdienstleistungen. Die Nürnberger Krankenversicherung AG bietet private Krankenversicherungen, während die Nürnberger Pensionsfonds AG und die Nürnberger Pensionskasse AG Leistungen für die betriebliche Altersversorgung bereitstellen.
-Zusätzlich erbringt die Fürst Fugger Privatbank KG Private-Banking-Dienstleistungen, und die Nürnberger Communication Center GmbH übernimmt Callcenter-Aufgaben. Die CodeCamp
-GmbH dient als Inkubator für Finanz- und Versicherungsdienstleistungen, während die Nürnberger evo-X GmbH kundenorientierte Prozesse entwickelt und berät. Die Nürnberger Beamten Allgemeine Versicherung AG bietet spezielle Tarife für den öffentlichen Dienst, und die Nürnberger Beamten Lebensversicherung AG, die sich in Abwicklung befindet, nimmt kein Neugeschäft mehr auf.
-\cite{NürnbergerWiki2024}
+
+Unter dem Dach der Nürnberger Beteiligungs-AG bestehen mehrere spezialisierte Gesellschaften: Die Nürnberger Lebensversicherung AG bietet Lösungen zur finanziellen Vorsorge an, während die Nürnberger Allgemeine Versicherungs-AG Sachversicherungen abdeckt. Die Garanta Versicherungs-AG fungiert als berufsständischer Versicherer für das deutsche Kraftfahrzeuggewerbe.
+
+Zur Schadensregulierung ist die Nürnberger Sofortservice AG tätig, und der Nürnberger AutoMobil Versicherungsdienst GmbH unterstützt Autohäuser mit Versicherungsdienstleistungen. Die Nürnberger Krankenversicherung AG bietet private Krankenversicherungen, während die Nürnberger Pensionsfonds AG und die Nürnberger Pensionskasse AG Leistungen für die betriebliche Altersversorgung bereitstellen.
+
+Zusätzlich erbringt die Fürst Fugger Privatbank KG Private-Banking-Dienstleistungen, und die Nürnberger Communication Center GmbH übernimmt Callcenter-Aufgaben. Die CodeCamp GmbH dient als Inkubator für Finanz- und Versicherungsdienstleistungen, während die Nürnberger evo-X GmbH kundenorientierte Prozesse entwickelt und berät.
+
+Die Nürnberger Beamten Allgemeine Versicherung AG bietet spezielle Tarife für den öffentlichen Dienst, und die Nürnberger Beamten Lebensversicherung AG, die sich in Abwicklung befindet, nimmt kein Neugeschäft mehr auf.\cite{NürnbergerWiki2024}
 \section{Vorstellung Abteilung}
 Wir in der Abteilung Anwendungsentwicklung-Leben-Produkte kurz AE-Leben-Pro entwickeln und warten die Software für die Lebensversicherungen.
-Dazu zählt primär die Tarif-/Produktverwaltung und versicherungsmathematische Berechnungen. Diese werden in Programmen auf sogenannten Rechenkernen durchgeführt.
+Dazu zählt primär die Tarif-/Produktverwaltung und versicherungsmathematische Berechnungen. 
+Diese werden in Programmen auf sogenannten Rechenkernen durchgeführt.
+
 Auf diesen Rechenkernen haben wir zum einen SST-Klassik. Dies ist ein C-Programm, dass für das DB2-Bestandführungssystem am IBM-Mainframe entwickelt wurde.
 Die Daten, also die Tarifinformationen, werden hier indirekt aus einer Produktdatenbank bezogen.
-Zusätzlich haben wir noch SST-Referenz. Wie der Name schon andeuten lässt ist entstand SST-Referenz aus SST-Klassik. Es ist ebenfalls ein C-Programm, dient jedoch als Test für das neuere
-Bestandführungssystem Life Factory. Life Factory ist eine Client-Server Anwendung. Zugehörig zur Life Factory ist der Rechenkern Life Produkt. Das ist ein Java Programm.
+
+Zusätzlich haben wir noch SST-Referenz. Wie der Name schon andeuten lässt, entstand SST-Referenz aus SST-Klassik. Es ist ebenfalls ein C-Programm, dient jedoch als Test für das neuere
+Bestandführungssystem Life Factory. 
+
+Life Factory ist eine Client-Server Anwendung. Zugehörig zur Life Factory ist der Rechenkern Life Produkt. Das ist ein Java Programm.
+
 Außerdem haben wir noch drei weitere Systeme, dazu gehört die Produktdatenbank, Solvency II und der IBM i (früher AS400).
+
 Die Produktdatenbank ist eine DB2-Datenbank, in der wirklich alle wichtigen Produktinformationen aller Tarife gespeichert werden. Es ist also sozusagen der Kern von AE-Leben.
+
 Solvency II ist ein europäisches Aufsichtsregime für Versicherungen, das seit dem 1. Januar 2016 gilt. Es legt moderne Solvabilitätsanforderungen fest, die auf einer ganzheitlichen Risikobetrachtung basieren. Vermögenswerte und Verbindlichkeiten werden nach Marktwerten bewertet. Ziel ist es, das Insolvenzrisiko von Versicherern zu verringern und das Aufsichtsrecht im europäischen Binnenmarkt zu harmonisieren. \cite{Bafin2016}
 Für diesen verpflichtenden Nachweise liefern wir eine Modellrechnung, das sogenannte Leistungsspektrum erster Ordnung (LS1). Hier wird der gesamte Bestand der Nürnberger Leben bewertet. Die LS1-Programme sind in Java geschrieben und rufen sowohl SST-Klassik als auch SST-Referenz auf. Die Verträge werden über XML-Schnittstellen geliefert.
+
 Der IBM i ist ein mittelgroßer Rechner, auf dem verschieden kleineren Anwendungssystem laufen, die Verträge mit Produkten verwalten, die einfacher zu handhaben sind, als die restlichen Tarifdaten. Dieser soll aber bis 2030 abgeschaltet werden.
 Die Programme auf dem IBM i sind alle in COBOL geschrieben und dementsprechend schon recht alt. 
 % It is possible to reference glossary entries as \gls{library} as an example.
@@ -30,10 +45,13 @@ Die Programme auf dem IBM i sind alle in COBOL geschrieben und dementsprechend s
 \section{Vorstellung Aufgabe}
 Die Infrastruktur der Nürnberger Versicherung besteht schon seit einiger Zeit. Die meisten Programme sind in C oder COBOL geschrieben.
 Es werden überflüssige Felder in den Datenbanken gespeichert und viele Workflows sind nicht mehr zeitgemäß und eher unhandlich.
+
 Die Life Factory entstand als Antwort auf diese Probleme. Jedoch kann sie nicht alles lösen.
 Es gibt immer noch keine angenehme, zuverlässige Variante schnell und einfach neue Tarife oder Produkte zu erstellen oder diese zu ändern.
+
 Zusätzlich kommt jeden November noch die Überschussneuberechnung hinzu. Diese ist ein sehr aufwendiger Prozess, der viel Zeit in Anspruch nimmt,
 da viele Abschnitte dieser Berechnung nicht automatisiert sind und dementsprechend von Hand durchgeführt und überprüft werden müssen.
+
 Meine Aufgabe besteht im groben darin genau diese Möglichkeit zu schaffen. Eine Webentwicklung die es ermöglicht die Inhalte der Tarife und Produkte sowie deren Sub-Entitäten
 zu erstellen, zu ändern, zu löschen und anzuzeigen. Zusätzlich ist es geplant in einer neuen Datenbank die Daten der Produktdatenbank (PDB) gekürzt zu speichern.
 Also bereits redundante und unnötige Felder sowie Tabellen zu entfernen. Die Aufgabe hier ist es die Entwicklung der Datenbank, des Backends sowie des Frontends zu übernehmen und alleine durchzuführen.
