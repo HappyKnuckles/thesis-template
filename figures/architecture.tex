@@ -17,9 +17,9 @@
   
   % Arrows with labels
   \draw [arrow] (user) -- node[left] {interacts} node[right] {with} (frontend);
-  \draw [arrow] (frontend) -- node[left] {http} node[right] {request} (webLayer.north);
+  \draw [arrow] (frontend) -- node[left] {http} node[right] {request} (webLayer);
   \draw [arrow] (webLayer) -- node[above] {call service} node[below] {methods} (domainLayer);
   \draw [arrow] (domainLayer) -- node[above] {ask for data} (dataLayer);
-  \draw [arrow] (dataLayer) -- node[above, xshift=-0.1cm] {access data} (database);
+  \draw [arrow] (dataLayer) -- node[left] {access} node[right] {data} (database);
     
 \end{tikzpicture}

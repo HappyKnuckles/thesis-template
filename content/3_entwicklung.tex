@@ -1,9 +1,36 @@
 \chapter{Entwicklung}\label{ch:method}
-
-In this chapter, we're actually using some code!
 \section{Backend}
 \subsection{Projektstruktur}
+
 \subsection{Entitäten-Implementierung}
+Die Entitäten sind das Grundgestein des Backends und auch der Datenbank.
+Hier habe ich zuerst mit meinem Chef in mehreren Gesprächen definiert, welche Entitäten wir für das Projekt benötigen.
+
+Die zu implementierenden Entitäten belaufen sich auf: Tarif, Tarifbaustein, Tarifbaustein-Pricing, Produkt, Produkt-Pricing, Tafelsystem und Überschuss.
+
+Im folgenden wurden die benötigten Felder für die Entitäten definiert. 
+// Hier die Klassen einfügen
+
+Die Entitäten wurden als Klassen in dem Projekt 'Domain' implementiert. Hierfür wurden zuerst die Properties der Klasse hinzugefügt und dann Getter und Setter geschrieben.
+Anschließend wurden die Entitäten mit der JPA-Annotation '@Entity' versehen, um die Verbindung zur Datenbank zu ermöglichen.
+
+Der nächste Schritt war es die Beziehungen zwischen den Entitäten hinzuzufügen. Hierbei gab es mehrere einfache 1:n Beziehungen: Tarif zu Tarifbaustein, Tarifbaustein zu Tarifbaustein-Pricing und Produkt zu Produkt-Pricing.
+
+Die Beziehung zwischen Tarifbaustein und Tafelsystem sowie Überschuss waren jedoch ein bisschen komplexer. 
+Hier hatte ich ursprünglich, anhand der Vorbesprechungen, jeweils drei n:m Beziehung geplant.
+Dementsprechend habe ich diese Beziehungen als je drei Listen implementiert, die die Keys der jeweils anderen Entitäten als Fremdschlüssel nutzen.
+Dies war für mich eher schwierig umzusetzen, da ich in Java noch nicht mit den Annotationen '@ManyToMany' und '@JoinTable' gearbeitet hatte.
+
+In weiteren Gesprächen mit meinen Chef wurde dann letztlich deutlich, das es keine drei n:m Beziehungen sind, sondern drei 1:n Beziehungen.
+Obwohl die Beziehungen bereits implementiert waren, fand ich die Notwendigkeit die Entitäten anzupassen, gut. Diese Änderung nimmt nämlich einiges an Komplexität aus dem Projekt heraus und
+erleichterte mir somit alle weiteren Schritte zur Implementierung der Services und Controller.
+
+Als die Beziehungen fertig definiert wurden, habe ich nun die Annotationen // TODO hinzufügen der richtigen Annotationen hinzugefügt, damit bei 
+der JSON-Serialisierung die Beziehungen korrekt dargestellt werden und keine Circular-Dependencies entstehen.
+
+Im späteren Verlauf wurde noch eine Funktion zum String-Serialisieren der Properties hinzugefügt. Dies wird benötigt um die Entitäten in die C-Datei schreiben zu können.
+
+Zusätzlich wurden alle Getter und Setter entfernt, da ich im Seminar von dem Package 'Lombok' erfahren habe und die '@Getter' und '@Setter' Annotationen die Klassen leichter lesbar machen.
 \subsection{Interface-Initialisierung}
 \subsection{Service-Implementierung}
 \subsection{Controller-Implementierung}
