@@ -1,17 +1,17 @@
 \chapter{Projektplanung}\label{ch:data}
 \section{Projektziele}
-Die groben Projektziele lassen sich aus der Projektaufgabe ableiten. 
-Die genauen Ziele sind die Implementierung folgender Entitäten: Tarif, Tarifbaustein, Tarifbaustein-Pricing, Tafelsystem, Überschuss, Produkt und Produkt-Pricing.
+Die groben Projektziele ergeben sich aus der Projektaufgabe. Konkret umfasst dies die Implementierung der folgenden Entitäten:
+\texttt{Tarif}, \texttt{Tarifbaustein}, \texttt{Tarif\-baustein-Pricing}, \texttt{Tafelsystem}, \texttt{Überschuss}, \texttt{Produkt} sowie \texttt{Produkt-Pricing}.
 
-Ein Tarif besteht jeweils aus mehreren Tarifbausteinen. Ein Tarifbaustein wiederum aus mehreren Tarifbaustein-Pricings. Tarifbausteine können null-drei Tafelsysteme und Überschüsse haben.
-Ein Produkt besteht aus mehreren Produkt-Pricings. 
+Ein \texttt{Tarif} besteht jeweils aus mehreren \texttt{Tarifbausteinen}. Ein \texttt{Tarifbaustein} wiederum aus mehreren \texttt{Tarifbaustein-Pricings}. \texttt{Tarifbausteine} können null-drei \texttt{Tafelsysteme} und \texttt{Überschüsse} haben.
+Ein \texttt{Produkt} besteht aus mehreren \texttt{Produkt-Pricings}. 
 
 Neben den Grundfunktionen wie CRUD (Create, Read, Update, Delete), die alle Entitäten haben sollen, gibt es noch spezielle Funktionen.
-Ein Tarif sowohl als auch ein Produkt sollen deaktiviert werden können. Dies dient ebenfalls als Voraussetzung für eine Löschung. Bei der Löschung von Tarifen soll darauf geachtet werden, dass Überschüsse und
+Ein Tarif sowohl als auch ein Produkt sollen deaktiviert werden können. Dies dient ebenfalls als Voraussetzung für eine Löschung. Bei der Löschung von Tarifen soll darauf geachtet werden, dass \texttt{Überschüsse} und
 Tafelsysteme die keinem Tarifbaustein mehr zugehörig sind auch entfernt werden um keine bezugslose Entitäten zu speichern. 
 
 Dementsprechend sollen alle Kind-Entitäten auch nur mit der Erstellung eines Vater-Elements angelegt werden können.
-Bei der Erstellung neuer Tarife soll es ebenfalls möglich sein einen bereits bestehenden Tarif als Vorlage zu verwenden. Hier ist es wichtig, dass nicht nur die direkten Tarifinformationen, 
+Bei der Erstellung neuer \texttt{Tarife} soll es ebenfalls möglich sein einen bereits bestehenden \texttt{Tarif} als Vorlage zu verwenden. Hier ist es wichtig, dass nicht nur die direkten Tarifinformationen, 
 sondern auch alle Daten der zugehörigen Kinder-Entitäten übernommen werden.
 
 Zusätzlich zu den bereits genannten Funktionen muss es möglich sein 
@@ -22,11 +22,11 @@ Die C-Datei hat folgende Struktur:
 Anzumerken ist, dass in der C-Datei als deaktiviert markierte Tarife oder Produkte nicht exportiert werden sollen. Zusätzlich sollen nur die Inhalte der aktuell ausgewählten Entität übernommen werden, also ohne Kind Daten.
 Diese Funktion ist besonders wichtig, da die Inhalte der C-Datei von anderen Anwendungen benötigt werden. Besonders sticht hier SST-Referenz heraus.
 
-Die letzten Funktionalitäten dienen allein den Überschüssen. Die Überschüsse werden wie bereits im vorherigem Kapitel erwähnt, jedes Jahr neu berechnet.
+Die letzten Funktionalitäten dienen allein den \texttt{Überschüssen}. Die \texttt{Überschüsse} werden wie bereits im vorherigem Kapitel erwähnt, jedes Jahr neu berechnet.
 Dementsprechend benötigt es diverse Funktionen um dies zu erleichtern. 
 
 Dazu gehört die Neuberechnung des Gesamtzins. Die Umsetzung ist so geplant, dass der neue Gesamtzins als Input eingegeben wird.
-Nun werden alle Überschüsse mit einem neuen Eintrag angelegt, der bis Ende des folge Jahre gültig ist. Die gültigBis Property des vorherigen Eintrags wird folglich auf das Ende des aktuellen Jahres geändert.
+Nun werden alle \texttt{Überschüsse} mit einem neuen Eintrag angelegt, der bis Ende des folge Jahre gültig ist. Die gültigBis Property des vorherigen Eintrags wird folglich auf das Ende des aktuellen Jahres geändert.
 Der neue Eintrag ist letztlich eine vollständige Kopie des alten Eintrags, jedoch mit dem neuen Gesamtzins. Dies ist der Fall, falls sich die Gesamtverzinsung in einem Jahr ändert.
 
 Nun gibt es noch die Möglichkeit, dass sich der Gesamtzins nicht ändert. In diesem Fall müssen nicht alle Einträge geändert werden, sondern nur ausgewählte. 
@@ -37,6 +37,7 @@ Also muss es eine Funktion geben die alle aktuellen Einträge kopiert und die G�
 
 \section{Technologie Auswahl}
 \subsection{Frontend: Angular}
+// TODO
 \subsection{Backend: Spring Boot vs ASP.Net}
 Im weiteren Verlauf der Planung wurde darüber diskutiert, ob die Umsetzung des Backends lieber mit Java oder C\# erfolgen soll. 
 Sowohl Java als auch C\# sind objektorientierte Programmiersprachen die ausreichend Tools zur Entwicklung von Web- und CRUD- (Create, Read, Update, Delete) Anwendungen bieten.
@@ -54,10 +55,20 @@ Hier ist das Hauptaugenmerk auf meine weitreichende Erfahrung in der Entwicklung
 Die nicht notwendige Einarbeitung in eine neue Sprache und Umgebung würde definitiv die Entwicklung beschleunigen.
 Ebenso würde das Vorwissen vermutlich auch die Qualität des Codes erhöhen, da ich bereits Methoden kenne, wie man Architektur, Entität-Beziehungen und Datenbankzugriffe effizient umsetzt.
 Ein weiterer Vorteil ist C\# leicht bessere Performance und deutlich besseres Speichermanagement. 
-// TODO Bild einfügen und beschreiben
-https://benchmarksgame-team.pages.debian.net/benchmarksgame/fastest/csharp.html
 
-Das Hauptargument auf der Seite von Java ist die weitreichende Nutzung innerhalb der Nürnberger Versicherung. Dies resultiert in zu einem besseren Support innerhalb des Unternehmens.
+Die genauen Zahlen sind in \cite{Debian2025} dargestellt. 
+Betrachtet man die Algorithmen \textit{fannkuch-redux} und \textit{n-body}, zeigt sich, dass C\# effizienter ist als Java.
+
+Beim \textit{fannkuch-redux} benötigt C\# durchschnittlich 23,04 Sekunden und 29.184~KB Speicher, 
+während Java mit 28,38 Sekunden etwa 19~\% langsamer ist und mit 43.582~KB etwa 50~\% mehr Speicher verbraucht.
+
+Beim \textit{n-body} liegt C\# mit 5,42 Sekunden Laufzeit und 28.946~KB Speicher ebenfalls vorn. 
+Java benötigt hier 7,36 Sekunden (26~\% langsamer) und 42.226~KB (48~\% mehr Speicher).
+
+In beiden Algorithmen ist C\# sowohl schneller als auch speichereffizienter. 
+Java zeigt konstant einen höheren Speicherverbrauch, was auf die JVM-Architektur zurückzuführen sein könnte.
+
+Das Hauptargument auf der Seite von Java ist jedoch die weitreichende Nutzung innerhalb der Nürnberger Versicherung. Dies resultiert in zu einem besseren Support innerhalb des Unternehmens.
 Ebenso ist das Maintaining dieser Anwendungen simpler, da die meisten Entwickler hier bereits Erfahrung in Java haben. Dementsprechend ist es für einen möglichen nachfolgenden Entwickler leichter
 in das Projekt einzusteigen und gegebenenfalls zu übernehmen.
 Das war auch letztlich der überzeugenden Punkt für die Verwendung von Java. 
@@ -67,6 +78,7 @@ Zusätzlich bedeutet das für mich auch eine Herausforderung, in der ich eine ne
 
 \subsection{Datenbank: MSSQL vs Oracle}
 Der nächste Schritt war die Auswahl der Datenbank. Hier standen MSSQL und Oracle zur Auswahl.
+// TODO
 \subsection{Architektur: Hexagonal}
 Der letzte Planungsabschnitt ist die Auswahl der Architektur. Hier wurde mir komplette Freiheit gelassen.
 Die einzige Bedingung hierbei war, dass die Logik aufgeteilt wird und somit eine Schichtentrennung erfolgt.
@@ -78,23 +90,22 @@ Diese unterschiedlichen Schichten sind von außen nach innen abhängig von einan
 In der Regel ist die Model-Schicht die innerste Schicht.
 Dann kommt die Service-Schicht mit der Anwendungslogik und die Controller-Schicht mit den APIs als Schnittstelle zum User-Interface.
 
-Im meinem konkreten Fall bedeutet das, dass die Web-Layer alle Schnittstellen anbietet die mein Fronted benötigt. Darunter zählen GET-Anfragen um Daten zu bekommen oder
-POST-Anfragen um Daten zu speichern.
-Die Domain-Layer ist die eigentliche Logik der Anwendung. Hier finden alle Berechnungen und Datenverarbeitungen, wie das Ändern der Überschüsse oder die Generierung der C-Datei, statt.
-Die Data-Layer ist die Schnittstelle zur Datenbank. Hier werden alle Datenbankzugriffe durchgeführt. In dieser Schicht sind auch alle Entitäten definiert.
+Im meinem konkreten Fall bedeutet das, dass die Web-Layer alle Schnittstellen anbietet die mein Fronted benötigt. Darunter zählen \texttt{GET}-Anfragen um Daten zu bekommen oder
+\texttt{POST}-Anfragen um Daten zu speichern.
+Die \texttt{Domain-Layer} ist die eigentliche Logik der Anwendung. Hier finden alle Berechnungen und Datenverarbeitungen, wie das Ändern der \texttt{Überschüsse} oder die Generierung der C-Datei, statt.
+Die \texttt{Data-Layer} ist die Schnittstelle zur Datenbank. Hier werden alle Datenbankzugriffe durchgeführt. In dieser Schicht sind auch alle Entitäten definiert.
 
-In \ref{fig:architecture} ist die Architektur des Systems dargestellt. Der Nutzer interagiert mit dem Frontend. Die Anfrage wird an die Web-Layer geschickt. 
-Diese ruft eine Methode im Service auf. Der Service in der Domain-Layer führt die Anfrage aus und ruft, falls Daten benötigt oder bearbeitet werden, die Data-Layer auf.
-Die Data-Layer greift auf die Datenbank zu und gibt die Daten zurück.
+In \ref{fig:architecture} ist die Architektur des Systems dargestellt. Der Nutzer interagiert mit dem Frontend. Die Anfrage wird an die \texttt{Web-Layer} geschickt. 
+Diese ruft eine Methode im Service auf. Der Service in der \texttt{Domain-Layer} führt die Anfrage aus und ruft, falls Daten benötigt oder bearbeitet werden, die \texttt{Data-Layer} auf.
+Die \texttt{Data-Layer} greift auf die Datenbank zu und gibt die Daten zurück.
 
-\begin{figure}[h]
-  \centering
+\begin{figure}[htbp]
   \resizebox{\textwidth}{!}{\input{./figures/architecture.tex}}
   \caption{Architektur des Systems}
   \label{fig:architecture}
 \end{figure}
 
 Diese Architektur bietet mehrere Vorteile. Durch die genannte Aufteilung ist es einfacher, einzelne Schichten zu ändern und auszutauschen. 
-So ist es beispielsweise dem Web-Layer egal, welches Frontend verwendet wird, und dem Data-Layer, welche Datenbank zum Einsatz kommt.
+So ist es beispielsweise dem \texttt{Web-Layer} egal, welches Frontend verwendet wird, und dem \texttt{Data-Layer}, welche Datenbank zum Einsatz kommt.
 Ebenfalls kann die Business-Logik unabhängig von den anderen Schichten getestet werden.
 Das wichtigste Argument für diese Architektur war jedoch, dass sie zum einen die Anforderung der geforderten Trennung erfüllt und die einzige Architektur ist, die ich bereits in der Praxis verwendet habe.

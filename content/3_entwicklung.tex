@@ -1,39 +1,77 @@
 \chapter{Entwicklung}\label{ch:method}
 \section{Backend}
 \subsection{Projektstruktur}
+Die Projektstruktur beziehungsweise die grobe Implementierung der Architektur wurde bereits in der Planung festgelegt. 
+Der erste Schritt zur Erstellung dieser war die Initiierung des Projekts mit dem sogenannten \texttt{Spring-Initializr}. 
+Hierbei wurden folgende Dependencies hinzugefügt: \texttt{Spring-Web}, \texttt{Spring-Data-JPA}, \texttt{H2-Database}, \texttt{Microsoft-SQL-Server}, \texttt{Spring-Doc} und \texttt{Spring-Boot-DevTools}.
+
+Die Projektstruktur wurde dann initial als drei Ordner \texttt{domain}, \texttt{application} und \texttt{infrastructure} verwirklicht.
+Der Ordner \texttt{domain} enthält die Entitäten, der Ordner \texttt{application} die Services und der Ordner \texttt{infrastructure} die Controller.
+Zusätzlich dazu wurde noch ein Konfigurationsordner erstellt, der die \texttt{Cors}-Einstellungen festlegt. 
+Des Weiteren gab es noch ein SQL-Skript für die Testdaten und eine \texttt{application.properties}, um die Datenbank zu konfigurieren.
+
+Die Fremdheit zu Java an sich erschwerte jedoch die initiale Umsetzung der Architektur. Die ursprüngliche Implementierung war nicht optimal und erfüllte
+die Schichtenarchitektur nicht.
+
+Im weiteren Verlauf wurde die Struktur so umgeändert, dass ich drei verschiedene Projekte angelegt habe: 
+Ein Projekt \texttt{Domain} für die Entitäten und Repository-Interfaces, ein Projekt \texttt{Web} für die Controller und Datenbankkonfiguration, sowie ein Projekt \texttt{Data}, 
+welches alle Services und die \texttt{Cors}-Konfiguration enthält. Jedes dieser Projekte hatte eine eigene \texttt{pom.xml}-Datei, die 
+die Abhängigkeiten und den Build-Prozess regelt. So entsteht letztlich ein zusammenhängendes Projekt mit einer klaren Struktur und Trennung.
+
 
 \subsection{Entitäten-Implementierung}
 Die Entitäten sind das Grundgestein des Backends und auch der Datenbank.
 Hier habe ich zuerst mit meinem Chef in mehreren Gesprächen definiert, welche Entitäten wir für das Projekt benötigen.
 
-Die zu implementierenden Entitäten belaufen sich auf: Tarif, Tarifbaustein, Tarifbaustein-Pricing, Produkt, Produkt-Pricing, Tafelsystem und Überschuss.
+Die zu implementierenden Entitäten belaufen sich auf: \texttt{Tarif}, \texttt{Tarifbaustein}, \texttt{Tarifbaustein-Pricing}, 
+\texttt{Produkt}, \texttt{Produkt-Pricing}, \texttt{Tafelsystem} und \texttt{Über\-schuss}.
 
-Im folgenden wurden die benötigten Felder für die Entitäten definiert. 
-// Hier die Klassen einfügen
+% Im folgenden wurden die benötigten Felder für die Entitäten definiert. 
+% // Hier die Klassen einfügen
 
-Die Entitäten wurden als Klassen in dem Projekt 'Domain' implementiert. Hierfür wurden zuerst die Properties der Klasse hinzugefügt und dann Getter und Setter geschrieben.
-Anschließend wurden die Entitäten mit der JPA-Annotation '@Entity' versehen, um die Verbindung zur Datenbank zu ermöglichen.
+Die Entitäten wurden als Klassen in dem Projekt \texttt{Domain} implementiert. Hierfür wurden zuerst die Properties der Klasse hinzugefügt und dann Getter und Setter geschrieben. 
+Da die Primärschlüssel von allen Entitäten bis auf \texttt{Tarif} und \texttt{Produkt} aus mehreren Properties bestehen, habe ich zusätzlich die Annotation 
+\texttt{@IdClass} hinzugefügt. Das heißt, ich habe für die Schlüssel eine extra Klasse erstellt, die das Interface \texttt{Serializable} implementiert und 
+die Properties enthält. Dies ermöglicht mir ein Importieren des zusammengesetzten Schlüssels in die Entitäten.
 
-Der nächste Schritt war es die Beziehungen zwischen den Entitäten hinzuzufügen. Hierbei gab es mehrere einfache 1:n Beziehungen: Tarif zu Tarifbaustein, Tarifbaustein zu Tarifbaustein-Pricing und Produkt zu Produkt-Pricing.
+Anschließend wurden die Entitäten mit der JPA-Annotation \texttt{@Entity} und \texttt{@Table} versehen, um die Verbindung zur Datenbank zu ermöglichen.
 
-Die Beziehung zwischen Tarifbaustein und Tafelsystem sowie Überschuss waren jedoch ein bisschen komplexer. 
-Hier hatte ich ursprünglich, anhand der Vorbesprechungen, jeweils drei n:m Beziehung geplant.
+Der nächste Schritt war es, die Beziehungen zwischen den Entitäten hinzuzufügen. Hierbei gab es mehrere einfache 1:n Beziehungen: \texttt{Tarif} zu \texttt{Tarifbaustein}, \texttt{Tarifbaustein} zu \texttt{Tarifbaustein-Pricing} und \texttt{Produkt} zu \texttt{Produkt-Pricing}.
+
+Die Beziehung zwischen \texttt{Tarifbaustein} und \texttt{Tafelsystem} sowie \texttt{Überschuss} waren jedoch ein bisschen komplexer. 
+Hier hatte ich ursprünglich, anhand der Vorbesprechungen, jeweils drei n:m Beziehungen geplant. 
 Dementsprechend habe ich diese Beziehungen als je drei Listen implementiert, die die Keys der jeweils anderen Entitäten als Fremdschlüssel nutzen.
-Dies war für mich eher schwierig umzusetzen, da ich in Java noch nicht mit den Annotationen '@ManyToMany' und '@JoinTable' gearbeitet hatte.
+Dies war für mich eher schwierig umzusetzen, da ich in Java noch nicht mit den Annotationen \texttt{@ManyToMany} und \texttt{@JoinTable} gearbeitet hatte.
 
-In weiteren Gesprächen mit meinen Chef wurde dann letztlich deutlich, das es keine drei n:m Beziehungen sind, sondern drei 1:n Beziehungen.
-Obwohl die Beziehungen bereits implementiert waren, fand ich die Notwendigkeit die Entitäten anzupassen, gut. Diese Änderung nimmt nämlich einiges an Komplexität aus dem Projekt heraus und
+In weiteren Gesprächen mit meinem Chef wurde dann letztlich deutlich, dass es keine drei n:m Beziehungen sind, sondern drei 1:n Beziehungen. 
+Obwohl die Beziehungen bereits implementiert waren, fand ich die Notwendigkeit, die Entitäten anzupassen, gut. Diese Änderung nimmt nämlich einiges an Komplexität aus dem Projekt heraus und 
 erleichterte mir somit alle weiteren Schritte zur Implementierung der Services und Controller.
 
-Als die Beziehungen fertig definiert wurden, habe ich nun die Annotationen // TODO hinzufügen der richtigen Annotationen hinzugefügt, damit bei 
+Als die Beziehungen fertig definiert wurden, habe ich nun die Annotationen \texttt{@JsonIgnore} bei den Kind-Entitäten hinzugefügt, damit bei 
 der JSON-Serialisierung die Beziehungen korrekt dargestellt werden und keine Circular-Dependencies entstehen.
 
-Im späteren Verlauf wurde noch eine Funktion zum String-Serialisieren der Properties hinzugefügt. Dies wird benötigt um die Entitäten in die C-Datei schreiben zu können.
+Im späteren Verlauf wurde noch eine Funktion zum String-Serialisieren der Properties hinzugefügt. Dies wird benötigt, um die Entitäten in die C-Datei schreiben zu können.
 
-Zusätzlich wurden alle Getter und Setter entfernt, da ich im Seminar von dem Package 'Lombok' erfahren habe und die '@Getter' und '@Setter' Annotationen die Klassen leichter lesbar machen.
+Zusätzlich wurden alle Getter und Setter entfernt, da ich im Seminar von dem Package \texttt{Lombok} erfahren habe und 
+die \texttt{@Getter} und \texttt{@Setter} Annotationen die Klassen lesbarer machen.
+
 \subsection{Interface-Initialisierung}
+// TODO
 \subsection{Service-Implementierung}
+// TODO
 \subsection{Controller-Implementierung}
+// TODO
 \section{Frontend}
+// TODO
 \section{Datenbank}
+Die Datenbank wurde bislang noch nicht aufgesetzt. Für die Entwicklung wurde jedoch eine H2-Datenbank verwendet. 
+
+Diese ist eine In-Memory Datenbank. Das heißt, dass die Datenbank nur so lange existiert, wie die Anwendung läuft.
+Das hat den Vorteil, dass die Datenbank bei jedem Start der Anwendung neu initialisiert wird und somit immer der gleiche Ausgangszustand herrscht.
+Die Option die Daten in einer Datei zu speichern, wurde nicht genutzt, da ein Zurücksetzen nach einem Build-Prozess besser für die Entwicklung geeignet ist.
+
+Um die Daten zu befüllen wurde ein SQL-Script mit ein paar Test Daten für jede Entität geschrieben. Dieses Script wird bei jedem Start ausgeführt und
+füllt dann die Datenbank.
+
+Die Datenbank wird dann in der weiteren Tätigkeit als Werkstudent beantragt, fertig aufgesetzt und verbunden.
 \
