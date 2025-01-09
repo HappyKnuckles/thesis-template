@@ -34,10 +34,15 @@ Dafür muss es möglich sein einen Eintrag fortzuschreiben wie bei der Änderung
 Im neuen Eintrag werden dann die Werte die sich geändert haben, manuell angepasst. Nach der Anpassung müssen alle unveränderten Einträge ebenfalls fortgeschrieben werden. 
 Also muss es eine Funktion geben die alle aktuellen Einträge kopiert und die Gültigkeit erneuert.
 
-
 \section{Technologie Auswahl}
 \subsection{Frontend: Angular}
-// TODO
+Als Frontend-Framework wurde Angular ausgewählt. Diese Entscheidung war naheliegend, da Angular das am weitesten verbreitete Framework innerhalb der Nürnberger ist und mein Chef ausdrücklich den Einsatz dieses Frameworks gewünscht hat.
+
+Auch aus meiner Sicht ist Angular eine sinnvolle Wahl. Es ist mein bevorzugtes Framework, da ich bereits mehrere eigene Projekte damit umgesetzt habe und auch innerhalb der Nürnberger umfangreiche Erfahrungen damit sammeln konnte. 
+Dadurch bin ich mit der Entwicklungsumgebung, den Werkzeugen und Best Practices bestens vertraut.
+
+Zwar hätte ich es interessant gefunden, mich in andere Frameworks wie Vue.js oder Svelte einzuarbeiten, doch die Entscheidung für Angular bringt klare Vorteile: 
+Meine bestehende Erfahrung ermöglicht eine schnellere Entwicklung und einen saubereren Code. Darüber hinaus erleichtert die Verbreitung von Angular innerhalb des Unternehmens die spätere Einarbeitung und Zusammenarbeit mit Kollegen, falls das Projekt übergeben oder erweitert werden muss.
 \subsection{Backend: Spring Boot vs ASP.Net}
 Im weiteren Verlauf der Planung wurde darüber diskutiert, ob die Umsetzung des Backends lieber mit Java oder C\# erfolgen soll. 
 Sowohl Java als auch C\# sind objektorientierte Programmiersprachen die ausreichend Tools zur Entwicklung von Web- und CRUD- (Create, Read, Update, Delete) Anwendungen bieten.
@@ -77,8 +82,14 @@ Die Argumente für C\# und weg von Java waren letztlich nicht stark genug.
 Zusätzlich bedeutet das für mich auch eine Herausforderung, in der ich eine neue weitere Sprache und Umgebung lernen kann.
 
 \subsection{Datenbank: MSSQL vs Oracle}
-Der nächste Schritt war die Auswahl der Datenbank. Hier standen MSSQL und Oracle zur Auswahl.
-// TODO
+Der nächste Schritt war die Auswahl der Datenbank. Zur Diskussion standen MSSQL und Oracle, beides relationale SQL-Datenbanken, 
+die die notwendigen Funktionen für das Projekt bieten. Eine grundlegende Anforderung meines Chefs war, dass es sich um eine SQL-Datenbank handeln muss.
+
+In einem gemeinsamen Gespräch mit den internen Architekten wurde schließlich entschieden, dass MSSQL die bessere Wahl für dieses Projekt ist.
+
+Auch wenn Oracle eine gängige Datenbank innerhalb der Nürnberger ist, ist sie vergleichsweise teuer und zu überdimensioniert für die Anforderungen des Projekts.
+MSSQL hingegen ist kostengünstiger und ist für die Datenmengen und möglichen Herausforderungen des Projektes mehr als ausreichend. \cite{petri2005comparison}
+
 \subsection{Architektur: Hexagonal}
 Der letzte Planungsabschnitt ist die Auswahl der Architektur. Hier wurde mir komplette Freiheit gelassen.
 Die einzige Bedingung hierbei war, dass die Logik aufgeteilt wird und somit eine Schichtentrennung erfolgt.

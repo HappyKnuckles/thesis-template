@@ -2,7 +2,7 @@
 \section{Backend}
 \subsection{Projektstruktur}
 Die Projektstruktur beziehungsweise die grobe Implementierung der Architektur wurde bereits in der Planung festgelegt. 
-Der erste Schritt zur Erstellung dieser war die Initiierung des Projekts mit dem sogenannten \texttt{Spring-Initializr}. 
+Der erste Schritt zur Erstellung war die Initiierung des Projekts mit dem sogenannten \texttt{Spring-Initializr}. 
 Hierbei wurden folgende Dependencies hinzugefügt: \texttt{Spring-Web}, \texttt{Spring-Data-JPA}, \texttt{H2-Database}, \texttt{Microsoft-SQL-Server}, \texttt{Spring-Doc} und \texttt{Spring-Boot-DevTools}.
 
 Die Projektstruktur wurde dann initial als drei Ordner \texttt{domain}, \texttt{application} und \texttt{infrastructure} verwirklicht.
@@ -47,8 +47,8 @@ In weiteren Gesprächen mit meinem Chef wurde dann letztlich deutlich, dass es k
 Obwohl die Beziehungen bereits implementiert waren, fand ich die Notwendigkeit, die Entitäten anzupassen, gut. Diese Änderung nimmt nämlich einiges an Komplexität aus dem Projekt heraus und 
 erleichterte mir somit alle weiteren Schritte zur Implementierung der Services und Controller.
 
-Als die Beziehungen fertig definiert wurden, habe ich nun die Annotationen \texttt{@JsonIgnore} bei den Kind-Entitäten hinzugefügt, damit bei 
-der JSON-Serialisierung die Beziehungen korrekt dargestellt werden und keine Circular-Dependencies entstehen.
+Nachdem die Beziehungen definiert waren, habe ich bei den Kind-Entitäten die Annotation \texttt{@JsonIgnore} hinzugefügt, 
+um bei der JSON-Serialisierung eine korrekte Darstellung der Beziehungen sicherzustellen und zyklische Abhängigkeiten zu vermeiden.
 
 Im späteren Verlauf wurde noch eine Funktion zum String-Serialisieren der Properties hinzugefügt. Dies wird benötigt, um die Entitäten in die C-Datei schreiben zu können.
 
@@ -56,6 +56,16 @@ Zusätzlich wurden alle Getter und Setter entfernt, da ich im Seminar von dem Pa
 die \texttt{@Getter} und \texttt{@Setter} Annotationen die Klassen lesbarer machen.
 
 \subsection{Interface-Initialisierung}
+Die Interfaces für die Entitäten wurden in dem Projekt \texttt{Domain} erstellt. Spring Data JPA bietet hier die Möglichkeit diverse Grundfunktionen mit der Annotation 
+\texttt{@JpaRepository} zu implementieren. Diese Annotation wurde in den Interfaces hinzugefügt und die Entitäten als Typenparameter übergeben.
+
+Die Funktionen, auf die man nun in allen Entitäten zugreifen kann, sind unter anderem \texttt{save}, \texttt{findAll}, \texttt{deleteAll}, \texttt{saveAll}, \texttt{getAll}, \texttt{getById} und viele weitere.
+Diese Möglichkeit, die CRUD-Operationen so zu implementieren, erspart einem viel Zeit und Arbeit.
+
+Als extra Query habe ich noch eine Funktion zum Finden von leeren Überschüssen hinzugefügt. Leer bedeutet in diesem Fall, dass die Liste der Tarifbausteine leer ist.
+Dies wird benötigt um verwahrloste Kind-Entitäten zu finden und zu löschen. Die gleiche Funktion gibt es auch für die Tafelsysteme.
+
+
 // TODO
 \subsection{Service-Implementierung}
 // TODO
