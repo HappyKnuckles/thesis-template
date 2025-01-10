@@ -56,20 +56,45 @@ Zusätzlich wurden alle Getter und Setter entfernt, da ich im Seminar von dem Pa
 die \texttt{@Getter} und \texttt{@Setter} Annotationen die Klassen lesbarer machen.
 
 \subsection{Interface-Initialisierung}
-Die Interfaces für die Entitäten wurden in dem Projekt \texttt{Domain} erstellt. Spring Data JPA bietet hier die Möglichkeit diverse Grundfunktionen mit der Annotation 
-\texttt{@JpaRepository} zu implementieren. Diese Annotation wurde in den Interfaces hinzugefügt und die Entitäten als Typenparameter übergeben.
+Die Interfaces für die Entitäten wurden in dem Projekt \texttt{Domain} erstellt. 
+Danach wurden die Annotation \texttt{@Repository} hinzugefügt, dies kennzeichnet intern die Klasse als Repository und ermöglicht die Verwendung der JPA-Annotationen. 
+
+Spring Data JPA bietet zusätzlich die Möglichkeit diverse Grundfunktionen zu implementieren. Hierfür erweitert man das die eigenen Interfaces mit dem Spring Interface \texttt{JpaRepository}. 
+Diese Erweiterung wurde in den Interfaces hinzugefügt und die Entitäten als Typenparameter übergeben.
 
 Die Funktionen, auf die man nun in allen Entitäten zugreifen kann, sind unter anderem \texttt{save}, \texttt{findAll}, \texttt{deleteAll}, \texttt{saveAll}, \texttt{getAll}, \texttt{getById} und viele weitere.
 Diese Möglichkeit, die CRUD-Operationen so zu implementieren, erspart einem viel Zeit und Arbeit.
 
-Als extra Query habe ich noch eine Funktion zum Finden von leeren Überschüssen hinzugefügt. Leer bedeutet in diesem Fall, dass die Liste der Tarifbausteine leer ist.
-Dies wird benötigt um verwahrloste Kind-Entitäten zu finden und zu löschen. Die gleiche Funktion gibt es auch für die Tafelsysteme.
+Als extra Query habe ich noch eine Funktion zum Finden von leeren Überschüssen und Tafelsystemen hinzugefügt. Leer bedeutet in diesem Fall, dass die Liste der Tarifbausteine leer ist.
+Dies wird benötigt um verwahrloste Kind-Entitäten zu finden und zu löschen.
 
+Der Aufbau dieser Query ist folgendermaßen:
 
-// TODO
-\subsection{Service-Implementierung}
-// TODO
+\lstinputlisting[language=Java,caption={Interface Query},captionpos=b]{listings/interface-method.java}
+
+Des Weiteren habe ich noch eine Query findMinUesel() hinzugefügt, um das momentan niedrigste Üsel zu finden.
+Diese Funktion wird benötigt, da in einer anderen Funktion Überschüsse kopiert werden und die Generierung der Üsel 
+manuell geschehen muss. 
+
 \subsection{Controller-Implementierung}
+Die Controller sind die Schnittstelle zwischen dem Frontend und dem Backend. Hier werden letztlich die REST-Apis implementiert, die die Daten an das Frontend senden.
+Der erste Schritt die Implementierung aller Controller Klassen. Hierfür erstellt man eine normale Java Klasse und annotiert diese mit \texttt{@RestController} und \texttt{@RequestMapping("path")}.
+Wie bei den anderen bis jetzt erwähnten Annotationen, diene diese der Kennzeichnung für Spring.
+
+Der nächste Schritt war die Injection der Services in die Controller. Ich habe mich hierbei für die sogenannte Dependency Injection entschieden.
+In Java sieht das beispielsweise so aus:
+
+\lstinputlisting[language=Java,caption={Dependency Injection},captionpos=b]{listings/dependency-injection.java}
+
+Diese Variante fördert eine lose Kopplung, verbessert die Testbarkeit, erhöht die Flexibilität durch austauschbare Implementierungen 
+und vereinfacht das Konfigurationsmanagement, was insgesamt zu wartbarer und anpassungsfähiger Software führt. \cite{seemann2019dependency}
+
+Der letzte Schritt war die Implementierung der REST-Endpunkte. Hierfür habe ich in jedem Controller die Schnittstellen getAll, getById, generateCFile, create, update, deleteById und search hinzugefügt.
+Bei jeder Schnittstelle musste noch die passende Annotation, die den Request-Type angibt, hinzugefügt werden.
+
+Im späteren Verlauf kamen noch weitere spezifischere Endpunkte hinzu. Dazu gehören zum Beispiel die Endpunkte zum deaktivieren von Tarifen und Produkten oder 
+zum ändern der aktuellen Gesamtverzinsung.
+\subsection{Service-Implementierung}
 // TODO
 \section{Frontend}
 // TODO
@@ -84,4 +109,4 @@ Um die Daten zu befüllen wurde ein SQL-Script mit ein paar Test Daten für jede
 füllt dann die Datenbank.
 
 Die Datenbank wird dann in der weiteren Tätigkeit als Werkstudent beantragt, fertig aufgesetzt und verbunden.
-\
+
