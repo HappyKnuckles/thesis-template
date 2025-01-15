@@ -75,6 +75,8 @@
 \tikzstyle{frontend} = [block, text width=7em]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
+
+
 % pdf hyperref
 \usepackage[
     bookmarks=true,
@@ -109,6 +111,15 @@
 	numbers=left,
 	numberstyle=\small,
 	breakautoindent=true
+}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={break, constructor, class, export, const, public, private, string, readonly case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  sensitive=true
 }
 
 % page setup

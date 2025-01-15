@@ -1,10 +1,9 @@
-@RestController
-@RequestMapping("/api/ueberschuesse")
-public class UeberschussController{
-    private final UeberschussService ueberschussService;
+@Service
+public class ProduktService{
+  private final ProduktRepository produktRepository;
 
-    public UeberschussController(UeberschussService 
-    ueberschussService) {
-        this.ueberschussService = ueberschussService;
-    }
+  public ProduktService(ProduktRepository 
+  produktRepository){
+    this.produktRepository = produktRepository;
+  }
 }

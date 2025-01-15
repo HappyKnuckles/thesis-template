@@ -1,4 +1,4 @@
-\chapter{Entwicklung}\label{ch:method}
+\chapter{Entwicklung}
 \section{Backend}
 \subsection{Projektstruktur}
 Die Projektstruktur beziehungsweise die grobe Implementierung der Architektur wurde bereits in der Planung festgelegt. 
@@ -16,8 +16,7 @@ die Schichtenarchitektur nicht.
 Im weiteren Verlauf wurde die Struktur so umgeändert, dass ich drei verschiedene Projekte angelegt habe: 
 Ein Projekt \texttt{Domain} für die Entitäten und Repository-Interfaces, ein Projekt \texttt{Web} für die Controller und Datenbankkonfiguration, sowie ein Projekt \texttt{Data}, 
 welches alle Services und die \texttt{Cors}-Konfiguration enthält. Jedes dieser Projekte hatte eine eigene \texttt{pom.xml}-Datei, die 
-die Abhängigkeiten und den Build-Prozess regelt. So entsteht letztlich ein zusammenhängendes Projekt mit einer klaren Struktur und Trennung.
-
+die Abhängigkeiten und den Build-Prozess regelt. So entsteht ein zusammenhängendes Projekt mit einer klaren Struktur und Trennung.
 
 \subsection{Entitäten-Implementierung}
 Die Entitäten sind das Grundgestein des Backends und auch der Datenbank.
@@ -66,7 +65,7 @@ Die Funktionen, auf die man nun in allen Entitäten zugreifen kann, sind unter a
 Diese Möglichkeit, die CRUD-Operationen so zu implementieren, erspart einem viel Zeit und Arbeit.
 
 Als extra Query habe ich noch eine Funktion zum Finden von leeren Überschüssen und Tafelsystemen hinzugefügt. Leer bedeutet in diesem Fall, dass die Liste der Tarifbausteine leer ist.
-Dies wird benötigt um verwahrloste Kind-Entitäten zu finden und zu löschen.
+Dies wird benötigt, um verwahrloste Kind-Entitäten zu finden und zu löschen.
 
 Der Aufbau dieser Query ist folgendermaßen:
 
@@ -76,12 +75,12 @@ Des Weiteren habe ich noch eine Query findMinUesel() hinzugefügt, um das moment
 Diese Funktion wird benötigt, da in einer anderen Funktion Überschüsse kopiert werden und die Generierung der Üsel 
 manuell geschehen muss. 
 
-\subsection{Controller-Implementierung}
-Die Controller sind die Schnittstelle zwischen dem Frontend und dem Backend. Hier werden letztlich die REST-Apis implementiert, die die Daten an das Frontend senden.
-Der erste Schritt die Implementierung aller Controller Klassen. Hierfür erstellt man eine normale Java Klasse und annotiert diese mit \texttt{@RestController} und \texttt{@RequestMapping("path")}.
-Wie bei den anderen bis jetzt erwähnten Annotationen, diene diese der Kennzeichnung für Spring.
+\subsection{Service-Implementierung}
+Die Services sind die Klassen, die die Logik enthalten. Hier werden die Daten verarbeitet und die Operationen durchgeführt.
+Hier wurden für alle Entitäten jeweils eine Service-Klasse erstellt. Um diese als Service zu kennzeichen, wurde die Annotation \texttt{@Service} hinzugefügt.
+Zusätzlich wurde noch ein Service für die Suche und ein weiterer für die Generierung der C-Datei hinzugefügt.
 
-Der nächste Schritt war die Injection der Services in die Controller. Ich habe mich hierbei für die sogenannte Dependency Injection entschieden.
+Die Grundstruktur der Entitäten-Service ist immer gleich. Zuerst wird das Repository injected, um auf die Methoden des JpaRepositories zugreifen zu können. Ich habe mich hierbei für die sogenannte Dependency Injection entschieden.
 In Java sieht das beispielsweise so aus:
 
 \lstinputlisting[language=Java,caption={Dependency Injection},captionpos=b]{listings/dependency-injection.java}
@@ -89,15 +88,103 @@ In Java sieht das beispielsweise so aus:
 Diese Variante fördert eine lose Kopplung, verbessert die Testbarkeit, erhöht die Flexibilität durch austauschbare Implementierungen 
 und vereinfacht das Konfigurationsmanagement, was insgesamt zu wartbarer und anpassungsfähiger Software führt. \cite{seemann2019dependency}
 
-Der letzte Schritt war die Implementierung der REST-Endpunkte. Hierfür habe ich in jedem Controller die Schnittstellen getAll, getById, generateCFile, create, update, deleteById und search hinzugefügt.
+Danach werden die CRUD-Operationen, die in den Interfaces schon vorgegeben wurden, implementiert.
+
+Hierfür reicht es aus einen Methodenrumpf zu definieren und dann die jeweilige Methode des Repositories aufzurufen.
+Anhand des Beispiels Produkt-Service sieht das so aus:
+
+\lstinputlisting[language=Java,caption={Service Implementierung},captionpos=b]{listings/service.java}
+
+Im weiteren Verlauf wurde für den Tarif-Service noch die Methode zum Löschen von Elternlosen Tafelsystemen und Überschüssen hinzugefügt.
+Diese Funktion wird aufgerufen, wenn ein Tarif gelöscht wird.
+
+Die meisten zusätzlichen Funktionen wurden im Überschuss-Service hinzugefügt. Hier wurde die Funktion \texttt{changeUeberschussSatz()} hinzugefügt, um die aktuelle Gesamtverzinsung jährlich 
+ändern zu können. Besonderheit bei dieser Funktion ist die benötigte Annotation \texttt{@Transactional}. Diese Annotation sorgt dafür, dass bei Fehlern alle Änderungen zurückgerollt werden.
+
+Um die Anforderung zu erfüllen, dass Überschüsse fortgeschrieben werden können wenn der Gesamtzins unverändert bleibt, wurde die Funktion \texttt{overWriteUesy()} hinzugefügt.
+Diese Funktion legt eine Deep-Copy von dem mitgegebenen Überschuss an, setzt das Datum des alten Überschusses auf das Ende des aktuellen Jahres, und das Datum des neuen 
+Überschusses auf das Ende des nächsten Jahres. Danach werden beide Überschüsse gespeichert.
+
+Die vorherige Funktion spiegelt letztlich den Prozess wider, Überschüsse manuell zu kopieren und zu verändern. Ein Problem hierbei ist jedoch, dass nicht alle Überschüsse geändert werden.
+Jedoch muss man diese auch fortschreiben ins nächste Jahr. Hierfür wurde eine weitere Funktion \texttt{updateUnchangedUesy()}  hinzugefügt. Diese Funktion sucht alle Überschüsse, bei dem kein 
+deklariertBis mit dem folgenden Jahr als Wert existiert und setzt dann das deklariertBis auf das Ende des nächsten Jahres.
+
+Eine weitere notwendige Funktion war die \texttt{splitUesyHistory()}. Diese Funktion wird benötigt, um Überschüsse aufzutrennen. Der Hintergrund ist hierbei der folgende: Momentan werden Überschüsse
+manchmal für mehrere Tarife genommen, da die Werte gleich sein sollen. Jedoch können die Anforderungen an die Überschüsse sich ändern. Da wir die Historie der Überschüsse benötigen, muss 
+diese also aufgeteilt und kopiert werden. Dafür ist diese Funktion zuständig.
+
+Wie zuvor erwähnt wurden noch zwei weitere Services implementiert. Der \texttt{CFile\-Generation\-Service} und der \texttt{SearchService}.
+
+Der \texttt{CFileGenerationService} implementiert eine generische Funktion für die 
+Generierung des C-Files. Diese Methode wird dann in den jeweilige Entität-Services aufgerufen. Hierfür war es zusätzlich notwendig den CFileGenerationService zu injecten.
+
+Der \texttt{SearchService} implementiert ebenfalls eine generische Funktion. Für die Suche gibt es zwei Optionen: direkte Suche eines Wertes in allen Feldern oder Suche eines Wertes in einem 
+bestimmten Feld. Die Methode berücksichtigt dabei, ob die Suchanfrage in der Form \texttt{key=value} oder einfach nur \texttt{value} vorliegt. 
+Für jede Entität gibt es einen eigenen Controller-Endpunkt zur Durchführung der Suche.
+
+\subsection{Controller-Implementierung}
+Die Controller sind die Schnittstelle zwischen dem Frontend und dem Backend. Hier werden die REST-Apis implementiert, die die Daten an das Frontend senden.
+Der erste Schritt war die Implementierung aller Controller Klassen. Hierfür erstellt man eine normale Java Klasse und annotiert diese mit \texttt{@RestController} und \texttt{@RequestMapping("path")}.
+Wie bei den anderen bis jetzt erwähnten Annotationen, diene diese der Kennzeichnung für Spring.
+
+Der nächste Schritt war die Injection der Services in die Controller. Das läuft genauso ab, wie in den Services.
+
+Der letzte Schritt war die Implementierung der REST-Endpunkte. Hierfür habe ich in jedem Controller die Schnittstellen \texttt{getAll}, \texttt{getById}, \texttt{generateCFile}, \texttt{create}, \texttt{update}, 
+\texttt{deleteById} und \texttt{search} hinzugefügt.
 Bei jeder Schnittstelle musste noch die passende Annotation, die den Request-Type angibt, hinzugefügt werden.
 
-Im späteren Verlauf kamen noch weitere spezifischere Endpunkte hinzu. Dazu gehören zum Beispiel die Endpunkte zum deaktivieren von Tarifen und Produkten oder 
+Im späteren Verlauf kamen noch weitere spezifischere Endpunkte hinzu. Dazu gehören zum Beispiel die Endpunkte zum Deaktivieren von Tarifen und Produkten oder 
 zum ändern der aktuellen Gesamtverzinsung.
-\subsection{Service-Implementierung}
-// TODO
 \section{Frontend}
-// TODO
+Das Frontend, also die Benutzeroberfläche, hat mehr Zeit in Anspruch genommen, als ursprünglich angenommen.
+
+Angefangen habe ich indem ich ein neues Angular Projekt, mithilfe des Command-Line-Interface, erstellt habe. Dies erstellt eine Grundstruktur für das Projekt und definiert benötigte Abhängigkeiten.
+
+Danach war es mein erstes Ziel, die Api-Definition und einen Service zu erstellen, über den die Kommunikation zum Backend läuft. Hierfür habe ich zuerst die Api-Definition mit dem Swagger-Editor erstellt und in 
+das Projekt eingefügt. Danach habe ich den Service erstellt der die Grundkonfiguration für die Kommunikation enthält.
+Die Klasse ist folgendermaßen aufgebaut:
+\lstinputlisting[language=javascript,caption={Api-Service},captionpos=b]{listings/api-service.ts}
+
+Zusätzlich habe ich noch einen HTTP-Interceptor hinzugefügt. Dieser fängt alle HTTP-Requests ab. Momentan wird dieser nur genutzt um zwischen 
+Aufbau und Abbau eines Requests eine Ladeanimation anzuzeigen. Jedoch ist es denkbar zukünftig, dass darin auch eine Fehlerbehandlung implementiert wird.
+
+Mein nächster Schritt war es für jede Entität eine Komponente zu erstellen. In diesen habe ich dann eine Tabelle hinzugefügt, die alle Daten enthält.
+
+Um zu diesen Komponenten navigieren zu können, habe ich eine Navigationsleiste hinzugefügt. Für das Routing hat Angular ein eigenes System. Dort werden alle Routen
+und die dazugehörigen Komponenten definiert. Anschließend fügt man diese in der \texttt{app.config.ts} als Provider hinzu.
+
+Im weiteren Verlauf habe ich zwei Buttons in der Tarif- und Produkt-Komponente implementiert. Beim ersten Klick auf diesen Button wird der Tarif beziehungsweise das Produkt deaktiviert und beim zweiten Klick
+wird er gelöscht. Nachdem ersten Klick wird zusätzlich der zweite Button sichtbar. Dieser reaktiviert den Tarif beziehungsweise das Produkt.
+
+Danach war es wichtig neue Entitäten hinzufügen zu können. Hierfür habe ich einen weiteren Button hinzugefügt. Dieser öffnet ein Dialog-Fenster mit allen Inputs die für die Entität
+notwendig ist. Um das zu ermöglichen habe ich für jede Entität eine Form-Komponente hinzugefügt. Das Dialog-Fenster um einen neuen Tarif hinzuzufügen besteht also aus mehreren 
+Form-Komponenten. 
+
+In den Form-Komponenten habe ich dann zum einen noch die Validierung der Inputs hinzugefügt, damit nur richtige Werte gespeichert werden. Und zum anderen habe ich noch Funktionen zum
+Löschen und hinzufügen von Tarifbausteinen und Tarifbaustein-Pricings hinzugefügt. Dies ist notwendig da ein Tarif mehrere dieser Entitäten besitzen kann. Zusätzlich habe ich noch Logik hinzugefügt,
+damit die Fremdschlüssel der Kinder automatisch mit dem Eltern-Primärschlüssel synchronisiert werden.
+
+Bei der Implementierung des Dialog-Fensters war die größte Herausforderung die Kommunikation zwischen den Komponenten. Um das zu lösen habe ich die \texttt{ParentFormGroup} immer als Input in die 
+Komponenten mitgegeben.
+
+Als nächsten Punkt musste die Möglichkeit hinzugefügt werden, die Entitäten verändern zu können. Hierfür habe ich wieder einen Button 
+implementiert, der die Felder zu Inputs macht und diese dann die veränderten Daten ans Backend sendet. 
+
+Hier ist mir aufgefallen, dass meine momentane Implementierung der Entitäten im Frontend nicht optimal ist. In der momentanen Umsetzung
+muss ich alle Erweiterungen für jede Entität hinzufügen. Das ist nicht nur sehr aufwendig, sondern auch fehleranfällig.
+
+Meine Lösung war hierfür, dass ich eine neue Komponenten erstellt habe, die die Felder der Entität als Objekt übergeben bekommt und dann dynamisch
+alle Felder darstellt. Das sorgt dafür, dass die Implementierung nur noch in einer Komponente stattfindet und somit die Erweiterungen oder Änderungen
+nur an einer Stelle gemacht werden müssen.
+
+Danach habe ich noch die restliche Funktionen hinzugefügt. Dazu gehören folgende Funktionen: \texttt{overWriteUesy()}, \texttt{changeGesamtZins()}, \texttt{splitUesyHistory()},
+\texttt{updateUnchangedUesy()} und \texttt{search()}. 
+
+Die Suche ist wieder eine eigene Komponente und auch Service, der die Entität als Input bekommt und so entscheidet, an welche Api die Anfrage geschickt wird.
+
+Nach der Implementierung der Suche gab es nur noch kleine Erweiterungen und Verbesserungen. Ein Beispiel hierfür ist eine Combo-Box, ein Dropdown-Menü mit integrierter Suche,
+um die Auswahl der Tarifbausteine, Überschüsse und Tafelsysteme zu erleichtern.
+% TODO Frontend
 \section{Datenbank}
 Die Datenbank wurde bislang noch nicht aufgesetzt. Für die Entwicklung wurde jedoch eine H2-Datenbank verwendet. 
 
@@ -105,8 +192,9 @@ Diese ist eine In-Memory Datenbank. Das heißt, dass die Datenbank nur so lange 
 Das hat den Vorteil, dass die Datenbank bei jedem Start der Anwendung neu initialisiert wird und somit immer der gleiche Ausgangszustand herrscht.
 Die Option die Daten in einer Datei zu speichern, wurde nicht genutzt, da ein Zurücksetzen nach einem Build-Prozess besser für die Entwicklung geeignet ist.
 
-Um die Daten zu befüllen wurde ein SQL-Script mit ein paar Test Daten für jede Entität geschrieben. Dieses Script wird bei jedem Start ausgeführt und
+Um die Daten zu befüllen, wurde ein SQL-Script mit ein paar Test Daten für jede Entität geschrieben. Dieses Script wird bei jedem Start ausgeführt und
 füllt dann die Datenbank.
 
 Die Datenbank wird dann in der weiteren Tätigkeit als Werkstudent beantragt, fertig aufgesetzt und verbunden.
+
 

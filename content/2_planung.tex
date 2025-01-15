@@ -1,4 +1,4 @@
-\chapter{Projektplanung}\label{ch:data}
+\chapter{Projektplanung}
 \section{Projektziele}
 Die groben Projektziele ergeben sich aus der Projektaufgabe. Konkret umfasst dies die Implementierung der folgenden Entitäten:
 \texttt{Tarif}, \texttt{Tarifbaustein}, \texttt{Tarif\-baustein-Pricing}, \texttt{Tafelsystem}, \texttt{Überschuss}, \texttt{Produkt} sowie \texttt{Produkt-Pricing}.
@@ -8,7 +8,7 @@ Ein \texttt{Produkt} besteht aus mehreren \texttt{Produkt-Pricings}.
 
 Neben den Grundfunktionen wie CRUD (Create, Read, Update, Delete), die alle Entitäten haben sollen, gibt es noch spezielle Funktionen.
 Ein Tarif sowohl als auch ein Produkt sollen deaktiviert werden können. Dies dient ebenfalls als Voraussetzung für eine Löschung. Bei der Löschung von Tarifen soll darauf geachtet werden, dass \texttt{Überschüsse} und
-Tafelsysteme die keinem Tarifbaustein mehr zugehörig sind auch entfernt werden um keine bezugslose Entitäten zu speichern. 
+Tafelsysteme, die keinem Tarifbaustein mehr zugehörig sind auch entfernt werden um keine bezugslose Entitäten zu speichern. 
 
 Dementsprechend sollen alle Kind-Entitäten auch nur mit der Erstellung eines Vater-Elements angelegt werden können.
 Bei der Erstellung neuer \texttt{Tarife} soll es ebenfalls möglich sein einen bereits bestehenden \texttt{Tarif} als Vorlage zu verwenden. Hier ist es wichtig, dass nicht nur die direkten Tarifinformationen, 
@@ -23,7 +23,7 @@ Anzumerken ist, dass in der C-Datei als deaktiviert markierte Tarife oder Produk
 Diese Funktion ist besonders wichtig, da die Inhalte der C-Datei von anderen Anwendungen benötigt werden. Besonders sticht hier SST-Referenz heraus.
 
 Die letzten Funktionalitäten dienen allein den \texttt{Überschüssen}. Die \texttt{Überschüsse} werden wie bereits im vorherigem Kapitel erwähnt, jedes Jahr neu berechnet.
-Dementsprechend benötigt es diverse Funktionen um dies zu erleichtern. 
+Dementsprechend benötigt es diverse Funktionen, um dies zu erleichtern. 
 
 Dazu gehört die Neuberechnung des Gesamtzins. Die Umsetzung ist so geplant, dass der neue Gesamtzins als Input eingegeben wird.
 Nun werden alle \texttt{Überschüsse} mit einem neuen Eintrag angelegt, der bis Ende des folge Jahre gültig ist. Die gültigBis Property des vorherigen Eintrags wird folglich auf das Ende des aktuellen Jahres geändert.
@@ -31,8 +31,8 @@ Der neue Eintrag ist letztlich eine vollständige Kopie des alten Eintrags, jedo
 
 Nun gibt es noch die Möglichkeit, dass sich der Gesamtzins nicht ändert. In diesem Fall müssen nicht alle Einträge geändert werden, sondern nur ausgewählte. 
 Dafür muss es möglich sein einen Eintrag fortzuschreiben wie bei der Änderung des Gesamtzins. Also ein neuer Eintrag mit neuer Gültigkeit und aktualisieren des alten Eintrags.
-Im neuen Eintrag werden dann die Werte die sich geändert haben, manuell angepasst. Nach der Anpassung müssen alle unveränderten Einträge ebenfalls fortgeschrieben werden. 
-Also muss es eine Funktion geben die alle aktuellen Einträge kopiert und die Gültigkeit erneuert.
+Im neuen Eintrag werden dann die Werte, die sich geändert haben, manuell angepasst. Nach der Anpassung müssen alle unveränderten Einträge ebenfalls fortgeschrieben werden. 
+Also muss es eine Funktion geben, die alle aktuellen Einträge kopiert und die Gültigkeit erneuert.
 
 \section{Technologie Auswahl}
 \subsection{Frontend: Angular}
@@ -48,9 +48,9 @@ Im weiteren Verlauf der Planung wurde darüber diskutiert, ob die Umsetzung des 
 Sowohl Java als auch C\# sind objektorientierte Programmiersprachen die ausreichend Tools zur Entwicklung von Web- und CRUD- (Create, Read, Update, Delete) Anwendungen bieten.
 Das heißt das jegliche Sprache für die von uns definierten Projektziele mehr als ausreichend ist.
 
-Auf der Seite von Java stehen Spring Boot für die Web Funktionalität und Spring Data JPA für die Abstrahierung der Datenbank zur Verfügung.
-C\# auf der anderen Seite bietet ASP.Net Core für die Web Funktionalität und Entity Framework Core für die Abstrahierung der Datenbank.
-Da ich bereits reichlich Erfahrung in der Entwicklung mit C\#, sowie ASP.Net und EFC habe, war dieses auch meine persönlich Präferenz für das Projekt.
+Auf der Seite von Java stehen Spring Boot für die Web-Funktionalität und Spring Data JPA für die Abstrahierung der Datenbank zur Verfügung.
+C\# auf der anderen Seite bietet ASP.Net Core für die Web-Funktionalität und Entity Framework Core für die Abstrahierung der Datenbank.
+Da ich bereits reichlich Erfahrung in der Entwicklung mit C\#, sowie ASP.Net und EFC habe, war dieses auch meine persönliche Präferenz für das Projekt.
 Innerhalb der Nürnberger ist jedoch C\# nicht weitreichend genutzt und stattdessen wird Java bevorzugt. Dieser Meinung ist auch mein Betreuer, jedoch lies er mir die Option offen, mit 
 ausreichend Argumenten, auch C\# zu verwenden. 
 Dementsprechend recherchierte ich die Vor- und Nachteile beider Technologien und stellte diese gegenüber.
@@ -64,10 +64,10 @@ Ein weiterer Vorteil ist C\# leicht bessere Performance und deutlich besseres Sp
 Die genauen Zahlen sind in \cite{Debian2025} dargestellt. 
 Betrachtet man die Algorithmen \textit{fannkuch-redux} und \textit{n-body}, zeigt sich, dass C\# effizienter ist als Java.
 
-Beim \textit{fannkuch-redux} benötigt C\# durchschnittlich 23,04 Sekunden und 29.184~KB Speicher, 
+Beim \textit{fannkuch-redux} benötigt C\# durchschnittlich 23,04 Sekunden und 29.184~KB-Speicher, 
 während Java mit 28,38 Sekunden etwa 19~\% langsamer ist und mit 43.582~KB etwa 50~\% mehr Speicher verbraucht.
 
-Beim \textit{n-body} liegt C\# mit 5,42 Sekunden Laufzeit und 28.946~KB Speicher ebenfalls vorn. 
+Beim \textit{n-body} liegt C\# mit 5,42 Sekunden Laufzeit und 28.946~KB-Speicher ebenfalls vorn. 
 Java benötigt hier 7,36 Sekunden (26~\% langsamer) und 42.226~KB (48~\% mehr Speicher).
 
 In beiden Algorithmen ist C\# sowohl schneller als auch speichereffizienter. 
@@ -76,7 +76,7 @@ Java zeigt konstant einen höheren Speicherverbrauch, was auf die JVM-Architektu
 Das Hauptargument auf der Seite von Java ist jedoch die weitreichende Nutzung innerhalb der Nürnberger Versicherung. Dies resultiert in zu einem besseren Support innerhalb des Unternehmens.
 Ebenso ist das Maintaining dieser Anwendungen simpler, da die meisten Entwickler hier bereits Erfahrung in Java haben. Dementsprechend ist es für einen möglichen nachfolgenden Entwickler leichter
 in das Projekt einzusteigen und gegebenenfalls zu übernehmen.
-Das war auch letztlich der überzeugenden Punkt für die Verwendung von Java. 
+Das war auch der überzeugenden Punkt für die Verwendung von Java. 
 
 Die Argumente für C\# und weg von Java waren letztlich nicht stark genug.
 Zusätzlich bedeutet das für mich auch eine Herausforderung, in der ich eine neue weitere Sprache und Umgebung lernen kann.
@@ -87,7 +87,7 @@ die die notwendigen Funktionen für das Projekt bieten. Eine grundlegende Anford
 
 In einem gemeinsamen Gespräch mit den internen Architekten wurde schließlich entschieden, dass MSSQL die bessere Wahl für dieses Projekt ist.
 
-Auch wenn Oracle eine gängige Datenbank innerhalb der Nürnberger ist, ist sie vergleichsweise teuer und zu überdimensioniert für die Anforderungen des Projekts.
+Auch wenn Oracle eine gängige Datenbank innerhalb der Nürnberger ist, ist sie teuer und zu überdimensioniert für die Anforderungen des Projekts.
 MSSQL hingegen ist kostengünstiger und ist für die Datenmengen und möglichen Herausforderungen des Projektes mehr als ausreichend. \cite{petri2005comparison}
 
 \subsection{Architektur: Hexagonal}
@@ -97,7 +97,7 @@ Die einzige Bedingung hierbei war, dass die Logik aufgeteilt wird und somit eine
 Hierbei fiel meine Entscheidung auf die Hexagonale Architektur.
 
 Das Grundprinzip der Hexagonalen Architektur ist es die Anwendung in verschiedene Schichten aufzuteilen.
-Diese unterschiedlichen Schichten sind von außen nach innen abhängig von einander. Das heißt das jede innere Schicht nichts von einer Schicht weiter außen weiß.
+Diese unterschiedlichen Schichten sind von außen nach innen abhängig voneinander. Das heißt das jede innere Schicht nichts von einer Schicht weiter außen weiß.
 In der Regel ist die Model-Schicht die innerste Schicht.
 Dann kommt die Service-Schicht mit der Anwendungslogik und die Controller-Schicht mit den APIs als Schnittstelle zum User-Interface.
 
@@ -120,3 +120,4 @@ Diese Architektur bietet mehrere Vorteile. Durch die genannte Aufteilung ist es 
 So ist es beispielsweise dem \texttt{Web-Layer} egal, welches Frontend verwendet wird, und dem \texttt{Data-Layer}, welche Datenbank zum Einsatz kommt.
 Ebenfalls kann die Business-Logik unabhängig von den anderen Schichten getestet werden.
 Das wichtigste Argument für diese Architektur war jedoch, dass sie zum einen die Anforderung der geforderten Trennung erfüllt und die einzige Architektur ist, die ich bereits in der Praxis verwendet habe.
+
