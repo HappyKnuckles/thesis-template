@@ -136,12 +136,12 @@ Bei jeder Schnittstelle musste noch die passende Annotation, die den Request-Typ
 Im späteren Verlauf kamen noch weitere spezifischere Endpunkte hinzu. Dazu gehören zum Beispiel die Endpunkte zum Deaktivieren von Tarifen und Produkten oder 
 zum ändern der aktuellen Gesamtverzinsung.
 \section{Frontend}
-Das Frontend, also die Benutzeroberfläche, hat mehr Zeit in Anspruch genommen, als ursprünglich angenommen.
+Das Frontend, also die Benutzeroberfläche, hat mehr Zeit in Anspruch genommen als ursprünglich angenommen.
 
 Angefangen habe ich indem ich ein neues Angular Projekt, mithilfe des Command-Line-Interface, erstellt habe. Dies erstellt eine Grundstruktur für das Projekt und definiert benötigte Abhängigkeiten.
 
 Danach war es mein erstes Ziel, die Api-Definition und einen Service zu erstellen, über den die Kommunikation zum Backend läuft. Hierfür habe ich zuerst die Api-Definition mit dem Swagger-Editor erstellt und in 
-das Projekt eingefügt. Danach habe ich den Service erstellt der die Grundkonfiguration für die Kommunikation enthält.
+das Projekt eingefügt. Danach habe ich den Service erstellt, der die Grundkonfiguration für die Kommunikation enthält.
 Die Klasse ist folgendermaßen aufgebaut:
 \lstinputlisting[language=javascript,caption={Api-Service},captionpos=b]{listings/api-service.ts}
 
@@ -157,7 +157,7 @@ Im weiteren Verlauf habe ich zwei Buttons in der Tarif- und Produkt-Komponente i
 wird er gelöscht. Nachdem ersten Klick wird zusätzlich der zweite Button sichtbar. Dieser reaktiviert den Tarif beziehungsweise das Produkt.
 
 Danach war es wichtig neue Entitäten hinzufügen zu können. Hierfür habe ich einen weiteren Button hinzugefügt. Dieser öffnet ein Dialog-Fenster mit allen Inputs die für die Entität
-notwendig ist. Um das zu ermöglichen habe ich für jede Entität eine Form-Komponente hinzugefügt. Das Dialog-Fenster um einen neuen Tarif hinzuzufügen besteht also aus mehreren 
+notwendig ist. Um das zu ermöglichen habe ich für jede Entität eine Form-Komponente hinzugefügt. Das Dialog-Fenster, um einen neuen Tarif hinzuzufügen besteht also aus mehreren 
 Form-Komponenten. 
 
 In den Form-Komponenten habe ich dann zum einen noch die Validierung der Inputs hinzugefügt, damit nur richtige Werte gespeichert werden. Und zum anderen habe ich noch Funktionen zum
@@ -173,11 +173,11 @@ implementiert, der die Felder zu Inputs macht und diese dann die veränderten Da
 Hier ist mir aufgefallen, dass meine momentane Implementierung der Entitäten im Frontend nicht optimal ist. In der momentanen Umsetzung
 muss ich alle Erweiterungen für jede Entität hinzufügen. Das ist nicht nur sehr aufwendig, sondern auch fehleranfällig.
 
-Meine Lösung war hierfür, dass ich eine neue Komponenten erstellt habe, die die Felder der Entität als Objekt übergeben bekommt und dann dynamisch
+Meine Lösung war hierfür, dass ich eine neue Komponente erstellt habe, die die Felder der Entität als Objekt übergeben bekommt und dann dynamisch
 alle Felder darstellt. Das sorgt dafür, dass die Implementierung nur noch in einer Komponente stattfindet und somit die Erweiterungen oder Änderungen
 nur an einer Stelle gemacht werden müssen.
 
-Danach habe ich noch die restliche Funktionen hinzugefügt. Dazu gehören folgende Funktionen: \texttt{overWriteUesy()}, \texttt{changeGesamtZins()}, \texttt{splitUesyHistory()},
+Danach habe ich noch die restlichen Funktionen hinzugefügt. Dazu gehören folgende Funktionen: \texttt{overWriteUesy()}, \texttt{changeGesamtZins()}, \texttt{splitUesyHistory()},
 \texttt{updateUnchangedUesy()} und \texttt{search()}. 
 
 Die Suche ist wieder eine eigene Komponente und auch Service, der die Entität als Input bekommt und so entscheidet, an welche Api die Anfrage geschickt wird.
@@ -192,9 +192,10 @@ Diese ist eine In-Memory Datenbank. Das heißt, dass die Datenbank nur so lange 
 Das hat den Vorteil, dass die Datenbank bei jedem Start der Anwendung neu initialisiert wird und somit immer der gleiche Ausgangszustand herrscht.
 Die Option die Daten in einer Datei zu speichern, wurde nicht genutzt, da ein Zurücksetzen nach einem Build-Prozess besser für die Entwicklung geeignet ist.
 
-Um die Daten zu befüllen, wurde ein SQL-Script mit ein paar Test Daten für jede Entität geschrieben. Dieses Script wird bei jedem Start ausgeführt und
+Um die Daten zu befüllen, wurde ein SQL-Script mit ein paar Testdaten für jede Entität geschrieben. Dieses Script wird bei jedem Start ausgeführt und
 füllt dann die Datenbank.
 
 Die Datenbank wird dann in der weiteren Tätigkeit als Werkstudent beantragt, fertig aufgesetzt und verbunden.
+
 
 
